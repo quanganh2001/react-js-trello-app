@@ -1,70 +1,200 @@
-# Getting Started with Create React App
+# Write Hello World with ReactJS
+- Type `npm uninstall react react-dom`
+- Type `npm install react@17.0.2 react-dom@17.0.2`
+# Desgin Trello App layout with React Hook
+- Type: `npm config set legacy-peer-deps true`
+- Type `npm install node-sass`
+- Change file to `App.scss`
+## Design App Layout
+```js
+function App() {
+  return (
+    <div className="trello-master">
+      <nav className="navbar app">App bar</nav>
+      <nav className="navbar board">Board bar</nav>
+      <div className="board-columns">
+        boad columns
+      </div>
+    </div>
+  );
+}
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+export default App;
+```
+## CSS App Layout
+```scss
+.trello-master {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 40px 50px 1fr;
+  line-height: 1.3em;
+  background-color: $board-bg-color;
+}
+```
+## Define global scss variables
+```scss
+$board-bg-color: aqua;
+$gap: 10px;
 
-## Available Scripts
+.trello-master {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 40px 50px 1fr;
+  background-color: $board-bg-color;
 
-In the project directory, you can run:
+  .navbar {
+    padding-left: $gap;
+    display: flex;
+    align-items: center;
 
-### `npm start`
+    &.app {
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    }
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    &.board {
 
-### `npm test`
+    }
+    
+  }
+}
+```
+## CSS Navigation bar
+```scss
+$navbar-app-bg-color: #0067a3;
+$navbar-board-bg-color: #0079bf;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+.navbar {
+    padding-left: $gap;
+    display: flex;
+    align-items: center;
 
-### `npm run build`
+    &.app {
+        font-size: 1.5rem;
+        background-color: $navbar-app-bg-color;
+    }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    &.board {
+        font-size: 1.1rem;
+        background-color: $navbar-board-bg-color;
+    }
+}
+```
+## Design single column
+```jsx
+<div className="column">
+    <header>Brainstorm</header>
+    <ul>
+        <li>
+            <img src="https://trello.com/1/cards/5e20e0e72365b93c7a291206/attachments/5e20e0e72365b93c7a291207/previews/5e20e0e72365b93c7a29120c/download/Design.png" alt="Design logo" />
+            Design & Research
+        </li>
+        <li>second</li>
+    </ul>
+    <footer>Add another card</footer>
+</div>
+```
+## CSS single column
+```scss
+$list-bg-color: #ebecf0;
+$gap: 10px;
+$column-header-height: 36px;
+$column-footer-height: 36px;
+$column-border-radius: 5px;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+.column {
+    flex: 0 0 auto;
+    width: 300px;
+    height: calc(100% - #{$gap});
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    > * {
+        background-color: $list-bg-color;
+        color: #333;
+        padding: 0 8px;
+    }
 
-### `npm run eject`
+    header {
+        padding-left: 15px;
+        height: $column-header-height;
+        line-height: $column-header-height;
+        font-size: 16px;
+        font-weight: bold;
+        border-top-left-radius: $column-border-radius;
+        border-top-right-radius: $column-border-radius;
+    }
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    footer {
+        padding-left: 10px;
+        height: $column-footer-height;
+        line-height: $column-footer-height;
+        border-bottom-left-radius: $column-border-radius;
+        border-bottom-right-radius: $column-border-radius;
+    }
+}
+```
+## CSS li, img tags
+```scss
+$card-border-radius: 3px;
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ul {
+    list-style-type: none;
+    margin: 0;
+    max-height: calc(100% - #{$column-header-height} - #{$column-footer-height});
+    overflow-y: auto;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    li {
+        background-color: white;
+        padding: $gap;
+        border-radius: $card-border-radius;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+        &:not(:last-child) {
+            margin-bottom: $gap;
+        }
 
-## Learn More
+        img {
+            display: block;
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+            width: calc(100% + 2 * #{$gap});
+            margin: -$gap 0 $gap (-$gap);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+            border-top-left-radius: $card-border-radius;
+            border-top-right-radius: $card-border-radius;
+        }
+    }
+}
+```
+## Scroll vertical
+```scss
+&::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
 
-### Code Splitting
+&::-webkit-scrollbar:vertical {
+    width: 11px;
+}
+```
+## Customize oy-scroll 
+```scss
+&::-webkit-scrollbar-thumb {
+    background-color: darken($color: $list-bg-color, $amount: 15);
+    border-right: 5px solid $list-bg-color;
+}
+```
+## Customize ox-scroll
+```scss
+gap: 10px;
+overflow-x: auto;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+&::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
 
-### Analyzing the Bundle Size
+&::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+&::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, .24);
+    border-radius: 5px solid $list-bg-color;
+}
+```
